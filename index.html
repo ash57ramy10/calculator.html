@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0f766e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>الحاسبة الشاملة للوجبات ومتابعة أيام الشهر (أوفلاين)</title>
+    <style>
+        :root {
+            --teal-50: #f0fdfa;
+            --teal-100: #ccfbf1;
+            --teal-200: #99f6e4;
+            --teal-600: #0d9488;
+            --teal-700: #0f766e;
+            --teal-800: #115e59;
+            --teal-900: #134e4a;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-300: #cbd5e1;
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --amber-50: #fffbeb;
+            --amber-100: #fef3c7;
+            --amber-200: #fde68a;
+            --amber-500: #f59e0b;
+            --amber-700: #b45309;
+            --amber-900: #78350f;
+            --rose-50: #fff1f2;
+            --rose-100: #ffe4e6;
+            --rose-200: #fecdd3;
+            --rose-500: #f43f5e;
+            --rose-600: #e11d48;
+            --rose-700: #be123c;
+            --blue-50: #eff6ff;
+            --blue-200: #bfdbfe;
+            --blue-500: #3b82f6;
+            --blue-700: #1d4ed8;
+            --emerald-50: #ecfdf5;
+            --emerald-100: #d1fae5;
+            --emerald-500: #10b981;
+            --emerald-600: #059669;
+            --emerald-700: #047857;
+            --emerald-800: #065f46;
+            --sky-50: #f0f9ff;
+            --sky-200: #bae6fd;
+            --sky-700: #0369a1;
+            --sky-900: #0c4a6e;
+            --purple-50: #faf5ff;
+            --purple-200: #e9d5ff;
+            --purple-800: #6b21a8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Tahoma, Arial, sans-serif;
+            background-color: var(--slate-100);
+            color: var(--slate-800);
+            line-height: 1.5;
+            padding-bottom: 60px;
+        }
+
+        .app-header {
+            background: linear-gradient(to left, var(--teal-900), var(--teal-700), var(--teal-600));
+            color: white;
+            padding: 20px 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            margin-bottom: 24px;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 14px;
+        }
+
+        .header-flex {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .header-title {
+            font-size: 1.45rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-sub {
+            color: var(--teal-100);
+            font-size: 0.88rem;
+            margin-top: 4px;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .btn {
+            cursor: pointer;
+            border: none;
+            border-radius: 12px;
+            padding: 9px 15px;
+            font-weight: 700;
+            font-size: 0.84rem;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-glass { background: rgba(255,255,255,0.2); color: white; }
+        .btn-glass:hover { background: rgba(255,255,255,0.3); }
+
+        .btn-white { background: white; color: var(--teal-900); }
+        .btn-white:hover { background: var(--teal-50); }
+
+        .grid-main {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        @media (min-width: 992px) {
+            .grid-top { grid-template-columns: 5fr 7fr; }
+            .grid-bottom { grid-template-columns: 7fr 5fr; }
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 20px;
+            border: 1px solid var(--slate-200);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            margin-bottom: 20px;
+        }
+
+        .grid-main .card { margin-bottom: 0; }
+
+        .card-title {
+            font-size: 1.08rem;
+            font-weight: 800;
+            color: var(--teal-800);
+            padding-bottom: 10px;
+            margin-bottom: 16px;
+            border-bottom: 2px solid var(--slate-100);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .label-sm {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--slate-600);
+            margin-bottom: 6px;
+        }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .grid-5 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+        @media (min-width: 650px) {
+            .grid-4 { grid-template-columns: repeat(4, 1fr); }
+            .grid-5 { grid-template-columns: repeat(5, 1fr); }
+        }
+
+        .toggle-btn {
+            padding: 9px 8px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            border: 2px solid var(--slate-200);
+            background: white;
+            color: var(--slate-600);
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.15s;
+        }
+
+        .toggle-btn.active {
+            border-color: var(--teal-600);
+            background: var(--teal-50);
+            color: var(--teal-800);
+        }
+
+        select, input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 10px;
+            border: 1px solid var(--slate-300);
+            background: var(--slate-50);
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--slate-800);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--teal-600);
+            cursor: pointer;
+        }
+
+        .slider-box {
+            background: var(--slate-50);
+            padding: 12px;
+            border-radius: 14px;
+            border: 1px solid var(--slate-200);
+            margin: 14px 0;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .num-badge {
+            width: 65px !important;
+            text-align: center;
+            padding: 4px !important;
+            background: white !important;
+            color: var(--teal-700) !important;
+        }
+
+        .stat-box {
+            padding: 12px;
+            border-radius: 14px;
+            text-align: center;
+        }
+        .stat-teal { background: var(--teal-50); border: 1px solid var(--teal-200); color: var(--teal-900); }
+        .stat-amber { background: var(--amber-50); border: 1px solid var(--amber-200); color: var(--amber-900); }
+        .stat-slate { background: var(--slate-50); border: 1px solid var(--slate-200); color: var(--slate-800); }
+        .stat-sky { background: var(--sky-50); border: 1px solid var(--sky-200); color: var(--sky-900); }
+        .stat-purple { background: var(--purple-50); border: 1px solid var(--purple-200); color: var(--purple-800); }
+
+        .stat-val {
+            font-size: 1.5rem;
+            font-weight: 900;
+            display: block;
+            margin: 2px 0;
+        }
+
+        .progress-wrapper {
+            background: var(--slate-50);
+            padding: 14px;
+            border-radius: 14px;
+            border: 1px solid var(--slate-200);
+            margin-top: 14px;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 10px;
+            background: var(--slate-200);
+            border-radius: 99px;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .macro-card {
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid var(--slate-200);
+        }
+
+        /* Calendar Grid (30 Days) */
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        @media (min-width: 600px) {
+            .days-grid { grid-template-columns: repeat(10, 1fr); }
+        }
+
+        .day-btn {
+            padding: 8px 4px;
+            border-radius: 12px;
+            border: 2px solid var(--slate-200);
+            background: var(--slate-50);
+            cursor: pointer;
+            text-align: center;
+            font-family: inherit;
+            transition: all 0.15s;
+            position: relative;
+        }
+
+        .day-btn:hover {
+            border-color: var(--teal-600);
+            transform: translateY(-1px);
+        }
+
+        .day-btn.active-day {
+            border-color: var(--teal-800) !important;
+            box-shadow: 0 0 0 3px var(--teal-200);
+            background: white;
+        }
+
+        .day-btn.logged-good {
+            background: var(--emerald-50);
+            border-color: var(--emerald-500);
+            color: var(--emerald-800);
+        }
+
+        .day-btn.logged-over {
+            background: var(--rose-50);
+            border-color: var(--rose-500);
+            color: var(--rose-700);
+        }
+
+        .day-num {
+            font-size: 0.82rem;
+            font-weight: 800;
+            display: block;
+        }
+
+        .day-cal {
+            font-size: 0.68rem;
+            font-weight: 700;
+            display: block;
+            margin-top: 2px;
+            color: var(--slate-500);
+        }
+        .logged-good .day-cal { color: var(--emerald-700); }
+        .logged-over .day-cal { color: var(--rose-600); }
+
+        .cat-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 12px 0;
+        }
+
+        .cat-pill {
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            border: none;
+            background: var(--slate-100);
+            color: var(--slate-700);
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .cat-pill.active {
+            background: var(--teal-700);
+            color: white;
+        }
+
+        .table-scroll {
+            max-height: 480px;
+            overflow-y: auto;
+            border: 1px solid var(--slate-200);
+            border-radius: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+        }
+
+        thead {
+            background: var(--slate-100);
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        th, td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--slate-100);
+            font-size: 0.84rem;
+        }
+
+        tr:hover { background-color: var(--teal-50); }
+
+        .cal-pill {
+            background: var(--teal-50);
+            color: var(--teal-800);
+            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .btn-add {
+            background: var(--teal-600);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .btn-add:hover { background: var(--teal-700); }
+
+        .meal-group {
+            background: var(--slate-50);
+            border: 1px solid var(--slate-200);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .meal-group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--slate-200);
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+            font-weight: 800;
+            color: var(--teal-900);
+        }
+
+        .meal-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            border-bottom: 1px dashed var(--slate-200);
+            font-size: 0.82rem;
+        }
+        .meal-item-row:last-child { border-bottom: none; }
+
+        .qty-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            border: 1px solid var(--slate-300);
+            background: white;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .total-footer {
+            margin-top: 16px;
+            background: var(--teal-50);
+            border: 2px solid var(--teal-600);
+            border-radius: 14px;
+            padding: 14px;
+        }
+
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; }
+            .card { box-shadow: none; border: 1px solid #ccc; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="container header-flex">
+            <div>
+                <h1 class="header-title">🗓️ الحاسبة الشاملة للوجبات وسجل متابعة الشهر (أوفلاين)</h1>
+                <p class="header-sub">سجّل وجباتك يومياً على مدار 30 يوماً واعرف حصيلة التزامك وتغير وزنك في آخر الشهر</p>
+            </div>
+            <div class="btn-group no-print">
+                <button onclick="copyMonthlyReport()" class="btn btn-glass">
+                    <span>📋</span> <span id="copyBtnText">نسخ تقرير الشهر</span>
+                </button>
+                <button onclick="window.print()" class="btn btn-white">
+                    <span>🖨️</span> طباعة / حفظ PDF
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- SECTION 0: MONTH & 30-DAY CALENDAR BAR -->
+        <section class="card">
+            <div class="card-title">
+                <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                    <span>📅 سجل أيام الشهر (اختر اليوم لتسجيل أو عرض وجباته):</span>
+                    <select id="month-selector" onchange="changeMonth(this.value)" style="width:auto; background:var(--teal-50); border-color:var(--teal-600); color:var(--teal-900);">
+                        <option value="1">شهر 1 (يناير)</option>
+                        <option value="2">شهر 2 (فبراير)</option>
+                        <option value="3">شهر 3 (مارس)</option>
+                        <option value="4">شهر 4 (أبريل)</option>
+                        <option value="5">شهر 5 (مايو)</option>
+                        <option value="6">شهر 6 (يونيو)</option>
+                        <option value="7">شهر 7 (يوليو)</option>
+                        <option value="8">شهر 8 (أغسطس)</option>
+                        <option value="9">شهر 9 (سبتمبر)</option>
+                        <option value="10" selected>شهر 10 (أكتوبر)</option>
+                        <option value="11">شهر 11 (نوفمبر)</option>
+                        <option value="12">شهر 12 (ديسمبر)</option>
+                    </select>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                    <span style="font-size:0.78rem; color:var(--slate-600);">⚖️ وزنك في <b id="weight-day-label">اليوم 1</b>:</span>
+                    <input type="number" id="daily-weight-input" placeholder="مثال: 75" step="0.1" oninput="saveDailyWeight(this.value)" style="width:85px; text-align:center; background:white;">
+                    <span style="font-size:0.75rem; color:var(--slate-500);">كجم</span>
+                </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; font-size:0.78rem; margin-bottom:8px;">
+                <div>
+                     👈 أنت الآن تسجل وجبات: <b id="active-day-banner" style="color:var(--teal-700); font-size:0.95rem; background:var(--teal-50); padding:3px 10px; border-radius:8px;">اليوم 1</b>
+                </div>
+                <div style="display:flex; gap:12px; font-weight:700;">
+                    <span style="color:var(--emerald-700);">🟢 ملتزم بالهدف</span>
+                    <span style="color:var(--rose-600);">🔴 تجاوز السعرات</span>
+                    <span style="color:var(--slate-500);">⚪ لم يسجل بعد</span>
+                </div>
+            </div>
+
+            <!-- 30 Days Grid -->
+            <div id="days-grid" class="days-grid"></div>
+        </section>
+
+        <!-- SECTION 1: Needs Calculator & Daily Summary -->
+        <div class="grid-main grid-top">
+            
+            <!-- Personal Info -->
+            <section class="card no-print">
+                <div class="card-title">
+                    <span>⚙️ 1. بيانات الجسم والهدف</span>
+                    <span style="font-size:0.75rem; color:var(--teal-600);">💾 حفظ تلقائي</span>
+                </div>
+
+                <div class="grid-2" style="margin-bottom: 12px;">
+                    <div>
+                        <label class="label-sm">الجنس</label>
+                        <div class="grid-2">
+                            <button type="button" id="btn-male" onclick="setGender('male')" class="toggle-btn active">👨 ذكر</button>
+                            <button type="button" id="btn-female" onclick="setGender('female')" class="toggle-btn">👩 أنثى</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="label-sm">توزيع الماكروز</label>
+                        <select id="macro-preset" onchange="applyPreset(this.value)">
+                            <option value="50,25,25">متوازن (50% ك / 25% ب / 25% د)</option>
+                            <option value="40,35,25">عالي البروتين (40% ك / 35% ب / 25% د)</option>
+                            <option value="25,40,35">لو كارب (25% ك / 40% ب / 35% د)</option>
+                            <option value="5,25,70">كيتو دايت (5% ك / 25% ب / 70% د)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="slider-box">
+                    <div class="grid-3">
+                        <div>
+                            <div class="slider-header">
+                                <span>العمر</span>
+                                <input type="number" id="age-num" value="30" min="10" max="95" oninput="syncInput('age', this.value)" class="num-badge">
+                            </div>
+                            <input type="range" id="age-range" value="30" min="10" max="95" oninput="syncInput('age', this.value)">
+                        </div>
+                        <div>
+                            <div class="slider-header">
+                                <span>الطول (سم)</span>
+                                <input type="number" id="height-num" value="170" min="120" max="220" oninput="syncInput('height', this.value)" class="num-badge">
+                            </div>
+                            <input type="range" id="height-range" value="170" min="120" max="220" oninput="syncInput('height', this.value)">
+                        </div>
+                        <div>
+                            <div class="slider-header">
+                                <span>الوزن الأساسي</span>
+                                <input type="number" id="weight-num" value="75" min="30" max="200" step="0.5" oninput="syncInput('weight', this.value)" class="num-badge">
+                            </div>
+                            <input type="range" id="weight-range" value="75" min="30" max="200" step="0.5" oninput="syncInput('weight', this.value)">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 12px;">
+                    <label class="label-sm">مستوى النشاط اليومي</label>
+                    <select id="activity" onchange="calculateNeeds()">
+                        <option value="1.2">خامل (عمل مكتبي، حركة قليلة)</option>
+                        <option value="1.375" selected>نشاط خفيف (مشي أو رياضة 1-3 أيام بالأسبوع)</option>
+                        <option value="1.55">نشاط متوسط (رياضة 3-5 أيام بالأسبوع)</option>
+                        <option value="1.725">نشاط عالٍ (رياضة شاقة 6-7 أيام بالأسبوع)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="label-sm">الهدف</label>
+                    <div class="grid-3">
+                        <button type="button" id="goal-cut" onclick="setGoal('cut')" class="toggle-btn">📉 تنشيف (-500)</button>
+                        <button type="button" id="goal-maintain" onclick="setGoal('maintain')" class="toggle-btn active">⚖️ ثبات الوزن</button>
+                        <button type="button" id="goal-bulk" onclick="setGoal('bulk')" class="toggle-btn">💪 زيادة (+300)</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Summary & Progress of Active Day -->
+            <section class="card">
+                <div class="card-title">
+                    <span>📊 2. ملخص سعرات (<span id="summary-day-title" style="color:var(--teal-600);">اليوم 1</span>)</span>
+                    <span id="status-badge" class="status-badge" style="background:var(--emerald-100); color:var(--emerald-800);">جاهز لاختيار الوجبات</span>
+                </div>
+
+                <div class="grid-4">
+                    <div class="stat-box stat-teal">
+                        <span style="font-size:0.75rem; font-weight:700;">المطلوب يومياً</span>
+                        <span id="target-cal" class="stat-val">2100</span>
+                        <span style="font-size:0.72rem;">سعرة حرارية</span>
+                    </div>
+                    <div class="stat-box stat-amber">
+                        <span style="font-size:0.75rem; font-weight:700;">سعرات اليوم المختارة</span>
+                        <span id="consumed-cal" class="stat-val">0</span>
+                        <span style="font-size:0.72rem;">سعرة مختارة</span>
+                    </div>
+                    <div class="stat-box stat-slate">
+                        <span style="font-size:0.75rem; font-weight:700;">المتبقي بهذا اليوم</span>
+                        <span id="remaining-cal" class="stat-val" style="color:var(--emerald-700);">2100</span>
+                        <span id="remaining-label" style="font-size:0.72rem;">سعرة متبقية</span>
+                    </div>
+                    <div class="stat-box stat-sky">
+                        <span style="font-size:0.75rem; font-weight:700;">الماء ومؤشر الكتلة</span>
+                        <span id="target-water" class="stat-val" style="font-size:1.3rem;">2.6 لتر</span>
+                        <span id="target-bmi" style="font-size:0.75rem; font-weight:700;">BMI: 26.0</span>
+                    </div>
+                </div>
+
+                <div class="progress-wrapper">
+                    <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:800;">
+                        <span>🔥 إجمالي السعرات الحرارية لهذا اليوم</span>
+                        <span><span id="bar-cal-val">0</span> / <span id="bar-cal-max">2100</span> سعرة (<span id="bar-cal-pct">0%</span>)</span>
+                    </div>
+                    <div class="progress-track">
+                        <div id="bar-cal" class="progress-fill" style="width:0%; background:var(--teal-600);"></div>
+                    </div>
+
+                    <div class="grid-3" style="margin-top: 14px;">
+                        <div class="macro-card">
+                            <div style="display:flex; justify-content:space-between; font-size:0.75rem; font-weight:700;">
+                                <span style="color:var(--amber-700);">🌾 كربوهيدرات</span>
+                                <span><b id="consumed-carb">0</b>/<span id="target-carb">250</span>ج</span>
+                            </div>
+                            <div class="progress-track" style="height:7px;">
+                                <div id="bar-carb" class="progress-fill" style="width:0%; background:var(--amber-500);"></div>
+                            </div>
+                        </div>
+
+                        <div class="macro-card">
+                            <div style="display:flex; justify-content:space-between; font-size:0.75rem; font-weight:700;">
+                                <span style="color:var(--rose-700);">🥩 بروتين</span>
+                                <span><b id="consumed-prot">0</b>/<span id="target-prot">130</span>ج</span>
+                            </div>
+                            <div class="progress-track" style="height:7px;">
+                                <div id="bar-prot" class="progress-fill" style="width:0%; background:var(--rose-500);"></div>
+                            </div>
+                        </div>
+
+                        <div class="macro-card">
+                            <div style="display:flex; justify-content:space-between; font-size:0.75rem; font-weight:700;">
+                                <span style="color:var(--blue-700);">🥑 دهون وزيوت</span>
+                                <span><b id="consumed-fat">0</b>/<span id="target-fat">58</span>ج</span>
+                            </div>
+                            <div class="progress-track" style="height:7px;">
+                                <div id="bar-fat" class="progress-fill" style="width:0%; background:var(--blue-500);"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- SECTION 2: Food Database & Active Day Plate -->
+        <div class="grid-main grid-bottom">
+            
+            <!-- Food Picker -->
+            <section class="card no-print">
+                <div class="card-title">
+                    <div>
+                        <span>🥖 3. جدول الأطعمة الشامل</span>
+                        <p style="font-size:0.75rem; color:var(--slate-500); font-weight:normal;">اختر الوجبة والكمية ثم اضغط (+ أضف) لإضافتها إلى <b id="picker-day-label">اليوم 1</b></p>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:6px; background:var(--teal-50); padding:6px 10px; border-radius:10px; border:1px solid var(--teal-200);">
+                        <span style="font-size:0.78rem; font-weight:700;">أضف إلى:</span>
+                        <select id="selected-meal-type" style="width:auto; padding:4px 8px; background:white;">
+                            <option value="الإفطار">🌅 وجبة الإفطار</option>
+                            <option value="الغداء" selected>☀️ وجبة الغداء</option>
+                            <option value="العشاء">🌙 وجبة العشاء</option>
+                            <option value="سناك">🍎 سناك / خفيفة</option>
+                        </select>
+                    </div>
+                </div>
+
+                <input type="text" id="food-search" oninput="renderFoodList()" placeholder="🔍 ابحث عن أي طعام (مثال: خبز بلدي، أرز، مكرونة، زيت زيتون، جبن قريش، تفاح...)">
+
+                <div class="cat-bar">
+                    <button onclick="setCategory('all')" id="cat-all" class="cat-pill active">الكل</button>
+                    <button onclick="setCategory('bread')" id="cat-bread" class="cat-pill">🥖 الخبز والمخبوزات</button>
+                    <button onclick="setCategory('carbs')" id="cat-carbs" class="cat-pill">🍚 الأرز والمكرونة والنشويات</button>
+                    <button onclick="setCategory('legumes')" id="cat-legumes" class="cat-pill">🍲 البقوليات والشعبيات</button>
+                    <button onclick="setCategory('protein')" id="cat-protein" class="cat-pill">🍗 اللحوم والدواجن والأسماك</button>
+                    <button onclick="setCategory('dairy')" id="cat-dairy" class="cat-pill">🧀 البيض والألبان والجبن</button>
+                    <button onclick="setCategory('fats')" id="cat-fats" class="cat-pill">🫒 الزيوت والدهون والمكسرات</button>
+                    <button onclick="setCategory('veggies')" id="cat-veggies" class="cat-pill">🥒 الخضروات والسلطات</button>
+                    <button onclick="setCategory('fruits')" id="cat-fruits" class="cat-pill">🍎 الفواكه</button>
+                </div>
+
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الصنف والوحدة</th>
+                                <th style="text-align:center;">السعرات</th>
+                                <th style="text-align:center;">الماكروز</th>
+                                <th style="text-align:center;">الكمية</th>
+                                <th style="text-align:center;">إضافة</th>
+                            </tr>
+                        </thead>
+                        <tbody id="food-db-tbody"></tbody>
+                    </table>
+                </div>
+
+                <!-- Custom Food Form -->
+                <div style="margin-top:14px; background:var(--slate-50); padding:12px; border-radius:12px; border:1px solid var(--slate-200);">
+                    <div style="font-size:0.78rem; font-weight:800; margin-bottom:8px;">➕ إضافة أكلة خاصة غير موجودة بالجدول:</div>
+                    <div class="grid-4" style="gap:6px;">
+                        <input type="text" id="custom-name" placeholder="اسم الأكلة">
+                        <input type="number" id="custom-cal" placeholder="السعرات">
+                        <input type="number" id="custom-carb" placeholder="كارب (جم)">
+                        <button onclick="addCustomFood()" class="btn-add" style="padding:8px;">+ أضف لوجبتي</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Selected Plate for Active Day -->
+            <section class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                    <div class="card-title">
+                        <span>🍽️ 4. سجل وجبات (<span id="plate-day-title" style="color:var(--teal-600);">اليوم 1</span>)</span>
+                        <div class="no-print" style="display:flex; gap:6px;">
+                            <button onclick="copyPreviousDayMeals()" title="نسخ وجبات اليوم السابق لهذا اليوم" style="background:var(--teal-50); color:var(--teal-800); border:1px solid var(--teal-200); padding:5px 8px; border-radius:8px; font-weight:700; font-size:0.72rem; cursor:pointer;">📥 نسخ من أمس</button>
+                            <button onclick="clearCurrentDayMeals()" style="background:var(--rose-50); color:var(--rose-600); border:1px solid var(--rose-200); padding:5px 8px; border-radius:8px; font-weight:700; font-size:0.72rem; cursor:pointer;">🗑️ مسح اليوم</button>
+                        </div>
+                    </div>
+                    <div id="selected-meals-container" style="max-height:520px; overflow-y:auto;"></div>
+                </div>
+
+                <div class="total-footer">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <span style="font-weight:800; color:var(--teal-900);">إجمالي هذا اليوم:</span>
+                        <span style="font-size:1.25rem; font-weight:900; color:var(--teal-800);"><span id="total-plate-cal">0</span> سعرة حرارية</span>
+                    </div>
+                    <div class="grid-3" style="text-align:center; font-size:0.8rem; font-weight:700; padding-top:8px; border-top:1px solid var(--teal-200);">
+                        <div style="color:var(--amber-700);">🌾 كارب: <span id="total-plate-carb">0</span> ج</div>
+                        <div style="color:var(--rose-700);">🥩 بروتين: <span id="total-plate-prot">0</span> ج</div>
+                        <div style="color:var(--blue-700);">🥑 دهون: <span id="total-plate-fat">0</span> ج</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- SECTION 3: END OF MONTH HARVEST & SUMMARY REPORT -->
+        <section class="card">
+            <div class="card-title">
+                <span>🏆 5. حصاد وتقرير آخر الشهر (ماذا وصلت إليه في <span id="report-month-name">شهر 10</span>؟)</span>
+                <button onclick="resetWholeMonth()" class="no-print" style="background:var(--slate-100); color:var(--slate-600); border:1px solid var(--slate-300); padding:5px 12px; border-radius:8px; font-weight:700; font-size:0.75rem; cursor:pointer;">🔄 تصفير الشهر بالكامل</button>
+            </div>
+
+            <!-- 5 Summary Cards for the Month -->
+            <div class="grid-5" style="margin-bottom: 18px;">
+                <div class="stat-box stat-teal">
+                    <span style="font-size:0.75rem; font-weight:700;">الأيام المسجلة بالشهر</span>
+                    <span id="month-days-logged" class="stat-val">0 / 30</span>
+                    <span style="font-size:0.72rem;">يوم مسجل</span>
+                </div>
+                <div class="stat-box stat-slate">
+                    <span style="font-size:0.75rem; font-weight:700;">أيام الالتزام بالهدف</span>
+                    <span id="month-days-on-track" class="stat-val" style="color:var(--emerald-700);">0</span>
+                    <span id="month-adherence-pct" style="font-size:0.72rem;">نسبة الالتزام: 0%</span>
+                </div>
+                <div class="stat-box stat-amber">
+                    <span style="font-size:0.75rem; font-weight:700;">متوسط سعراتك اليومي</span>
+                    <span id="month-avg-cal" class="stat-val">0</span>
+                    <span style="font-size:0.72rem;">المطلوب: <b id="month-target-ref">2100</b></span>
+                </div>
+                <div class="stat-box stat-sky">
+                    <span style="font-size:0.75rem; font-weight:700;">الفرق التراكمي بالشهر</span>
+                    <span id="month-net-diff" class="stat-val">0</span>
+                    <span id="month-net-label" style="font-size:0.72rem;">سعرة (عجز / فائض)</span>
+                </div>
+                <div class="stat-box stat-purple">
+                    <span style="font-size:0.75rem; font-weight:700;">النتيجة وتغير الوزن</span>
+                    <span id="month-weight-result" class="stat-val" style="font-size:1.25rem;">0 كجم</span>
+                    <span id="month-weight-sub" style="font-size:0.72rem;">توقع الحرق/الزيادة</span>
+                </div>
+            </div>
+
+            <!-- Detailed Table of Logged Days -->
+            <div style="margin-top: 10px;">
+                <h3 style="font-size:0.9rem; font-weight:800; color:var(--slate-700); margin-bottom:10px;">📋 جدول ملخص الأيام التي قمت بتسجيلها خلال الشهر:</h3>
+                <div class="table-scroll" style="max-height: 320px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>اليوم</th>
+                                <th style="text-align:center;">عدد الأصناف</th>
+                                <th style="text-align:center;">السعرات المستهلكة</th>
+                                <th style="text-align:center;">الفرق عن الهدف</th>
+                                <th style="text-align:center;">الماكروز (ك / ب / د)</th>
+                                <th style="text-align:center;">الوزن المسجل</th>
+                                <th style="text-align:center;">الحالة</th>
+                            </tr>
+                        </thead>
+                        <tbody id="monthly-log-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const foodDatabase = [
+            // الخبز والمخبوزات
+            { id: 1, cat: 'bread', name: 'خبز بلدي مصري (ردة)', unit: 'رغيف متوسط (100 جم)', cal: 250, c: 50, p: 8, f: 1.5 },
+            { id: 2, cat: 'bread', name: 'نصف رغيف بلدي مصري', unit: 'نصف رغيف (50 جم)', cal: 125, c: 25, p: 4, f: 0.8 },
+            { id: 3, cat: 'bread', name: 'ربع رغيف بلدي مصري', unit: 'ربع رغيف (25 جم)', cal: 63, c: 12.5, p: 2, f: 0.4 },
+            { id: 4, cat: 'bread', name: 'خبز فينو', unit: 'رغيف متوسط (60 جم)', cal: 175, c: 34, p: 5, f: 2 },
+            { id: 5, cat: 'bread', name: 'خبز شامي أبيض', unit: 'رغيف متوسط (80 جم)', cal: 220, c: 45, p: 6, f: 1.5 },
+            { id: 6, cat: 'bread', name: 'خبز توست أسمر / ردة', unit: 'شريحة واحدة (30 جم)', cal: 75, c: 13, p: 3, f: 1 },
+            { id: 7, cat: 'bread', name: 'خبز توست أبيض', unit: 'شريحة واحدة (30 جم)', cal: 85, c: 15, p: 2.5, f: 1 },
+            { id: 8, cat: 'bread', name: 'خبز شوفان صحي', unit: 'شريحة / رغيف صغير (50 جم)', cal: 130, c: 23, p: 5, f: 2 },
+            { id: 9, cat: 'bread', name: 'خبز سن (دايت)', unit: 'رغيف (60 جم)', cal: 140, c: 26, p: 6, f: 1 },
+            { id: 10, cat: 'bread', name: 'خبز تورتيلا / صاج', unit: 'رغيف متوسط (65 جم)', cal: 190, c: 32, p: 5, f: 4 },
+            { id: 11, cat: 'bread', name: 'بقسماط / كحك شاي سادة', unit: 'قطعتين (30 جم)', cal: 120, c: 20, p: 3, f: 3 },
+            { id: 12, cat: 'bread', name: 'فطير مشلتت', unit: 'قطعة متوسطة (100 جم)', cal: 380, c: 42, p: 6, f: 21 },
+            { id: 13, cat: 'bread', name: 'كرواسون سادة', unit: 'قطعة متوسطة (60 جم)', cal: 240, c: 27, p: 5, f: 12 },
+
+            // الأرز والمكرونة والنشويات
+            { id: 20, cat: 'carbs', name: 'أرز أبيض مطبوخ', unit: 'طبق صغير / 6 ملاعق (150 جم)', cal: 195, c: 42, p: 4, f: 0.5 },
+            { id: 21, cat: 'carbs', name: 'أرز مصري بالشعرية مطبوخ', unit: 'طبق صغير / 6 ملاعق (150 جم)', cal: 235, c: 44, p: 4.5, f: 4.5 },
+            { id: 22, cat: 'carbs', name: 'أرز بسمتي مطبوخ', unit: 'طبق صغير / 6 ملاعق (150 جم)', cal: 180, c: 39, p: 4, f: 0.5 },
+            { id: 23, cat: 'carbs', name: 'أرز بني (حبة كاملة) مطبوخ', unit: 'طبق صغير / 6 ملاعق (150 جم)', cal: 170, c: 35, p: 4, f: 1.5 },
+            { id: 24, cat: 'carbs', name: 'مكرونة مسلوقة (بدون صلصة)', unit: 'طبق صغير / 6 ملاعق (150 جم)', cal: 210, c: 43, p: 7, f: 1 },
+            { id: 25, cat: 'carbs', name: 'مكرونة بالصلصة الحمراء', unit: 'طبق متوسط (200 جم)', cal: 290, c: 52, p: 8, f: 5 },
+            { id: 26, cat: 'carbs', name: 'مكرونة بالبشاميل', unit: 'قطعة متوسطة (250 جم)', cal: 480, c: 45, p: 22, f: 24 },
+            { id: 27, cat: 'carbs', name: 'شوفان خام (جاف)', unit: 'نصف كوب / 5 ملاعق (50 جم)', cal: 190, c: 33, p: 6.5, f: 3.5 },
+            { id: 28, cat: 'carbs', name: 'بطاطس مسلوقة أو مشوية بالفرن', unit: 'حبة متوسطة (150 جم)', cal: 130, c: 30, p: 3, f: 0.2 },
+            { id: 29, cat: 'carbs', name: 'بطاطس محمرة بالزيت', unit: 'طبق صغير (100 جم)', cal: 310, c: 38, p: 3.5, f: 15 },
+            { id: 30, cat: 'carbs', name: 'بطاطس في الإيرفراير (ملعقة زيت صغيرة)', unit: 'طبق متوسط (150 جم)', cal: 175, c: 30, p: 3, f: 4.5 },
+            { id: 31, cat: 'carbs', name: 'بطاطا حلوة مشوية', unit: 'حبة متوسطة (150 جم)', cal: 135, c: 31, p: 2.5, f: 0.2 },
+            { id: 32, cat: 'carbs', name: 'فريك أو برغل مطبوخ', unit: '6 ملاعق كبيرة (150 جم)', cal: 160, c: 33, p: 5.5, f: 0.5 },
+            { id: 33, cat: 'carbs', name: 'ذرة صفراء حلوة مسلوقة', unit: 'كوز متوسط (100 جم)', cal: 96, c: 21, p: 3.4, f: 1.5 },
+            { id: 34, cat: 'carbs', name: 'محشي (ورق عنب / كرنب / باذنجان)', unit: '6 أصابع متوسطة (150 جم)', cal: 240, c: 38, p: 4.5, f: 7 },
+
+            // البقوليات والشعبيات
+            { id: 40, cat: 'legumes', name: 'فول مدمس سادة (بدون زيت)', unit: 'طبق صغير / 6 ملاعق (150 جم)', cal: 165, c: 29, p: 11, f: 0.8 },
+            { id: 41, cat: 'legumes', name: 'فول مدمس بالزيت والطحينة', unit: 'طبق متوسط (180 جم)', cal: 280, c: 31, p: 13, f: 12 },
+            { id: 42, cat: 'legumes', name: 'طعمية (فلافل) مقلية', unit: 'قرص متوسط (30 جم)', cal: 65, c: 6, p: 2.5, f: 3.5 },
+            { id: 43, cat: 'legumes', name: 'عدس أصفر (شوربة عدس)', unit: 'سلطانية متوسطة (250 مل)', cal: 210, c: 34, p: 12, f: 3 },
+            { id: 44, cat: 'legumes', name: 'كشري مصري', unit: 'طبق متوسط (300 جم)', cal: 450, c: 78, p: 14, f: 9 },
+            { id: 45, cat: 'legumes', name: 'حمص الشام مسلوق', unit: 'كوب واحد (150 جم)', cal: 240, c: 40, p: 13, f: 3.8 },
+            { id: 46, cat: 'legumes', name: 'فاصوليا بيضاء أو لوبيا مطبوخة', unit: 'طبق صغير / 6 ملاعق (150 جم)', cal: 210, c: 35, p: 12, f: 3 },
+            { id: 47, cat: 'legumes', name: 'ترمُس مملح', unit: 'نصف كوب (80 جم)', cal: 95, c: 8, p: 12, f: 2 },
+
+            // اللحوم والدواجن والأسماك
+            { id: 50, cat: 'protein', name: 'صدور دجاج مشوية أو مسلوقة', unit: 'قطعة متوسطة (100 جم مطبوخ)', cal: 165, c: 0, p: 31, f: 3.6 },
+            { id: 51, cat: 'protein', name: 'ورك دجاج (بدون جلد) مشوي/مسلوق', unit: 'ورك متوسط (100 جم صافي)', cal: 205, c: 0, p: 26, f: 10.5 },
+            { id: 52, cat: 'protein', name: 'دجاج بانيه مقلي', unit: 'قطعة متوسطة (100 جم)', cal: 280, c: 14, p: 23, f: 15 },
+            { id: 53, cat: 'protein', name: 'لحم بقري أحمر (مسلوق أو مشوي)', unit: 'قطعة متوسطة (100 جم مطبوخ)', cal: 250, c: 0, p: 26, f: 15 },
+            { id: 54, cat: 'protein', name: 'كفتة مشوية', unit: '3 أصابع متوسطة (100 جم)', cal: 265, c: 3, p: 22, f: 18 },
+            { id: 55, cat: 'protein', name: 'كبدة إسكندراني أو مشوية', unit: 'طبق صغير (100 جم)', cal: 195, c: 4, p: 26, f: 8 },
+            { id: 56, cat: 'protein', name: 'سجق شرقي مطبوخ', unit: '100 جم', cal: 310, c: 3, p: 16, f: 26 },
+            { id: 57, cat: 'protein', name: 'سمك بلطي مشوي', unit: 'سمكة متوسطة (150 جم صافي)', cal: 190, c: 0, p: 38, f: 4 },
+            { id: 58, cat: 'protein', name: 'سمك بوري مشوي', unit: 'سمكة متوسطة (150 جم صافي)', cal: 225, c: 0, p: 36, f: 8.5 },
+            { id: 59, cat: 'protein', name: 'سمك فيليه قشر بياض (مشوي/فرن)', unit: 'قطعة متوسطة (150 جم)', cal: 165, c: 0, p: 34, f: 2.5 },
+            { id: 60, cat: 'protein', name: 'سمك مقلي بالزيت', unit: 'قطعة/سمكة متوسطة (150 جم)', cal: 315, c: 10, p: 32, f: 16 },
+            { id: 61, cat: 'protein', name: 'جمبري مشوي أو مسلوق', unit: 'طبق صغير (150 جم مقشر)', cal: 150, c: 1.5, p: 32, f: 1.8 },
+            { id: 62, cat: 'protein', name: 'جمبري مقلي', unit: 'طبق صغير (150 جم)', cal: 360, c: 18, p: 26, f: 20 },
+            { id: 63, cat: 'protein', name: 'علبة تونة مصفاة من الزيت', unit: 'علبة واحدة (120 جم صافي)', cal: 160, c: 0, p: 32, f: 3 },
+
+            // البيض والألبان والجبن
+            { id: 70, cat: 'dairy', name: 'بيض مسلوق', unit: 'بيضة واحدة كبيرة (50 جم)', cal: 75, c: 0.6, p: 6.5, f: 5 },
+            { id: 71, cat: 'dairy', name: 'بيض أومليت / مقلي بالسمن', unit: 'بيضتان', cal: 210, c: 1, p: 13, f: 17 },
+            { id: 72, cat: 'dairy', name: 'جبن قريش فلاحي', unit: 'قطعة كبيرة (100 جم)', cal: 98, c: 3.4, p: 12, f: 4 },
+            { id: 73, cat: 'dairy', name: 'جبنة فيتا أو بيضاء ملح خفيف', unit: 'ملعقتين كبيرتين (50 جم)', cal: 130, c: 2, p: 7, f: 10.5 },
+            { id: 74, cat: 'dairy', name: 'جبنة شيدر أو جودا (Gouda)', unit: 'شريحتين (50 جم)', cal: 180, c: 1, p: 12.5, f: 14 },
+            { id: 75, cat: 'dairy', name: 'جبنة رومي قديمة', unit: 'شريحتين (50 جم)', cal: 195, c: 1, p: 12, f: 16 },
+            { id: 76, cat: 'dairy', name: 'حليب بقري كامل الدسم', unit: 'كوب واحد (240 مل)', cal: 150, c: 12, p: 8, f: 8 },
+            { id: 77, cat: 'dairy', name: 'حليب جاموسي طبيعي كامل الدسم', unit: 'كوب واحد (240 مل)', cal: 230, c: 13, p: 9, f: 16 },
+            { id: 78, cat: 'dairy', name: 'حليب خالي أو قليل الدسم', unit: 'كوب واحد (240 مل)', cal: 100, c: 12, p: 8, f: 2 },
+            { id: 79, cat: 'dairy', name: 'زبادي طبيعي (بلدي أو شركات)', unit: 'علبة متوسطة (110 جم)', cal: 75, c: 5.5, p: 4.5, f: 3.5 },
+            { id: 80, cat: 'dairy', name: 'زبادي يوناني (سادة)', unit: 'علبة (150 جم)', cal: 135, c: 6, p: 15, f: 5 },
+
+            // الزيوت والدهون والمكسرات
+            { id: 90, cat: 'fats', name: 'زيت زيتون بكر ممتاز', unit: 'ملعقة كبيرة (14 جم)', cal: 120, c: 0, p: 0, f: 14 },
+            { id: 91, cat: 'fats', name: 'زيت ذرة أو عباد الشمس', unit: 'ملعقة كبيرة (14 جم)', cal: 120, c: 0, p: 0, f: 14 },
+            { id: 92, cat: 'fats', name: 'زيت حار (بذر الكتان)', unit: 'ملعقة كبيرة (14 جم)', cal: 120, c: 0, p: 0, f: 14 },
+            { id: 93, cat: 'fats', name: 'سمن بلدي طبيعي', unit: 'ملعقة كبيرة (15 جم)', cal: 130, c: 0, p: 0, f: 14.5 },
+            { id: 94, cat: 'fats', name: 'زبدة طبيعية', unit: 'ملعقة كبيرة (14 جم)', cal: 102, c: 0, p: 0.1, f: 11.5 },
+            { id: 95, cat: 'fats', name: 'طحينة خام (سمسم)', unit: 'ملعقة كبيرة (15 جم)', cal: 90, c: 3, p: 2.6, f: 8 },
+            { id: 96, cat: 'fats', name: 'زبدة فول سوداني', unit: 'ملعقة كبيرة ممتلئة (16 جم)', cal: 95, c: 3, p: 4, f: 8 },
+            { id: 97, cat: 'fats', name: 'مكسرات مشكلة (لوز، كاجو، عين جمل)', unit: 'حفنة يد صغيرة (30 جم)', cal: 175, c: 6, p: 5, f: 15 },
+            { id: 98, cat: 'fats', name: 'فول سوداني محمص', unit: 'حفنة يد صغيرة (30 جم)', cal: 170, c: 5, p: 7.5, f: 14 },
+            { id: 99, cat: 'fats', name: 'زيتون أخضر أو أسود', unit: '8 حبات متوسطة (30 جم)', cal: 45, c: 1, p: 0.3, f: 4.5 },
+            { id: 100, cat: 'fats', name: 'أفوكادو طازج', unit: 'نصف ثمرة متوسطة (100 جم)', cal: 160, c: 8.5, p: 2, f: 14.7 },
+
+            // الخضروات والسلطات
+            { id: 110, cat: 'veggies', name: 'طبق سلطة خضراء مشكل (بدون زيت)', unit: 'طبق كبير (200 جم)', cal: 45, c: 9, p: 2, f: 0.3 },
+            { id: 111, cat: 'veggies', name: 'خيار طازج', unit: 'حبة متوسطة (100 جم)', cal: 15, c: 3.6, p: 0.7, f: 0.1 },
+            { id: 112, cat: 'veggies', name: 'طماطم طازجة', unit: 'حبة متوسطة (100 جم)', cal: 18, c: 3.9, p: 0.9, f: 0.2 },
+            { id: 113, cat: 'veggies', name: 'خس أو جرجير أو بقدونس', unit: 'حزمة / كوبين (100 جم)', cal: 17, c: 3, p: 1.5, f: 0.2 },
+            { id: 114, cat: 'veggies', name: 'جزر طازج', unit: 'حبة متوسطة (80 جم)', cal: 33, c: 8, p: 0.8, f: 0.2 },
+            { id: 115, cat: 'veggies', name: 'فلفل رومي أخضر أو ألوان', unit: 'حبة متوسطة (100 جم)', cal: 26, c: 6, p: 1, f: 0.3 },
+            { id: 116, cat: 'veggies', name: 'كوسة أو فاصوليا خضراء مطبوخة', unit: 'طبق متوسط (150 جم)', cal: 90, c: 12, p: 2.5, f: 3.5 },
+            { id: 117, cat: 'veggies', name: 'بسلة بالجزر مطبوخة', unit: 'طبق متوسط (150 جم)', cal: 135, c: 21, p: 6, f: 3 },
+            { id: 118, cat: 'veggies', name: 'بامية أو ملوخية مطبوخة', unit: 'طبق متوسط (150 جم)', cal: 110, c: 11, p: 4, f: 5.5 },
+            { id: 119, cat: 'veggies', name: 'باذنجان مشوي (بابا غنوج)', unit: 'طبق صغير (100 جم)', cal: 130, c: 9, p: 2.5, f: 9.5 },
+
+            // الفواكه
+            { id: 130, cat: 'fruits', name: 'تفاح (أحمر / أخضر / أصفر)', unit: 'ثمرة متوسطة (150 جم)', cal: 78, c: 21, p: 0.4, f: 0.2 },
+            { id: 131, cat: 'fruits', name: 'موز', unit: 'ثمرة متوسطة (120 جم)', cal: 105, c: 27, p: 1.3, f: 0.4 },
+            { id: 132, cat: 'fruits', name: 'برتقال أو يوسفي', unit: 'ثمرة متوسطة (140 جم)', cal: 65, c: 16, p: 1.2, f: 0.2 },
+            { id: 133, cat: 'fruits', name: 'جوافة', unit: 'ثمرة متوسطة (100 جم)', cal: 68, c: 14, p: 2.5, f: 1 },
+            { id: 134, cat: 'fruits', name: 'مانجو', unit: 'ثمرة متوسطة (150 جم صافي)', cal: 95, c: 24, p: 1.2, f: 0.6 },
+            { id: 135, cat: 'fruits', name: 'عنب (أحمر أو أخضر)', unit: 'كوب واحد (150 جم)', cal: 104, c: 27, p: 1, f: 0.2 },
+            { id: 136, cat: 'fruits', name: 'فراولة طازجة', unit: 'كوب واحد / 8 حبات (150 جم)', cal: 48, c: 11.5, p: 1, f: 0.4 },
+            { id: 137, cat: 'fruits', name: 'بطيخ أحمر', unit: 'شريحتين / كوبين مكعبات (250 جم)', cal: 75, c: 19, p: 1.5, f: 0.4 },
+            { id: 138, cat: 'fruits', name: 'كنتالوب / شمام', unit: 'كوبين مكعبات (250 جم)', cal: 85, c: 20, p: 2, f: 0.5 },
+            { id: 139, cat: 'fruits', name: 'بلح / تمر', unit: '3 حبات متوسطة (30 جم)', cal: 85, c: 22, p: 0.7, f: 0.1 },
+            { id: 140, cat: 'fruits', name: 'تين برشومي طازج', unit: 'ثمرتين متوسطتين (100 جم)', cal: 74, c: 19, p: 0.8, f: 0.3 },
+            { id: 141, cat: 'fruits', name: 'رمان (حبوب)', unit: 'نصف كوب (100 جم)', cal: 83, c: 19, p: 1.7, f: 1.2 }
+        ];
+
+        const STORAGE_KEY_USER = 'offline_nutrition_user_v2';
+        const STORAGE_KEY_MONTH_LOGS = 'offline_nutrition_month_logs_v2';
+
+        let userState = {
+            gender: 'male', age: 30, height: 170, weight: 75,
+            activity: 1.375, goal: 'maintain',
+            carbPct: 50, protPct: 25, fatPct: 25,
+            targetCal: 2100, targetCarb: 250, targetProt: 130, targetFat: 58,
+            currentMonth: '10',
+            activeDay: 1
+        };
+
+        // Structure: monthlyLogs["10"][dayNumber] = { items: [...], weight: null }
+        let monthlyLogs = {};
+        let currentCategory = 'all';
+
+        function getDayLog(day = userState.activeDay) {
+            const m = userState.currentMonth;
+            if (!monthlyLogs[m]) monthlyLogs[m] = {};
+            if (!monthlyLogs[m][day]) monthlyLogs[m][day] = { items: [], weight: '' };
+            return monthlyLogs[m][day];
+        }
+
+        function loadSavedData() {
+            try {
+                const savedUser = localStorage.getItem(STORAGE_KEY_USER);
+                if (savedUser) {
+                    userState = { ...userState, ...JSON.parse(savedUser) };
+                    document.getElementById('age-num').value = userState.age;
+                    document.getElementById('age-range').value = userState.age;
+                    document.getElementById('height-num').value = userState.height;
+                    document.getElementById('height-range').value = userState.height;
+                    document.getElementById('weight-num').value = userState.weight;
+                    document.getElementById('weight-range').value = userState.weight;
+                    document.getElementById('activity').value = userState.activity;
+                    document.getElementById('month-selector').value = userState.currentMonth;
+                    setGender(userState.gender, false);
+                    setGoal(userState.goal, false);
+                }
+                const savedLogs = localStorage.getItem(STORAGE_KEY_MONTH_LOGS);
+                if (savedLogs) {
+                    monthlyLogs = JSON.parse(savedLogs);
+                }
+            } catch (e) {}
+        }
+
+        function saveData() {
+            try {
+                localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(userState));
+                localStorage.setItem(STORAGE_KEY_MONTH_LOGS, JSON.stringify(monthlyLogs));
+            } catch (e) {}
+        }
+
+        function changeMonth(m) {
+            userState.currentMonth = m;
+            userState.activeDay = 1;
+            const sel = document.getElementById('month-selector');
+            document.getElementById('report-month-name').innerText = sel.options[sel.selectedIndex].text;
+            saveData();
+            selectDay(1);
+        }
+
+        function selectDay(dayNum) {
+            userState.activeDay = dayNum;
+            const dayLog = getDayLog(dayNum);
+
+            document.getElementById('active-day-banner').innerText = `اليوم ${dayNum}`;
+            document.getElementById('weight-day-label').innerText = `اليوم ${dayNum}`;
+            document.getElementById('summary-day-title').innerText = `اليوم ${dayNum}`;
+            document.getElementById('picker-day-label').innerText = `اليوم ${dayNum}`;
+            document.getElementById('plate-day-title').innerText = `اليوم ${dayNum}`;
+            document.getElementById('daily-weight-input').value = dayLog.weight || '';
+
+            saveData();
+            updateMealTrackerUI();
+            renderCalendarGrid();
+            renderMonthlyHarvest();
+        }
+
+        function saveDailyWeight(val) {
+            const dayLog = getDayLog(userState.activeDay);
+            dayLog.weight = val ? parseFloat(val) : '';
+            saveData();
+            renderMonthlyHarvest();
+        }
+
+        function renderCalendarGrid() {
+            const grid = document.getElementById('days-grid');
+            grid.innerHTML = '';
+
+            for (let d = 1; d <= 30; d++) {
+                const log = getDayLog(d);
+                const dayCal = log.items.reduce((sum, i) => sum + Math.round(i.baseCal * i.qty), 0);
+
+                let statusClass = '';
+                if (dayCal > 0) {
+                    statusClass = dayCal <= userState.targetCal ? 'logged-good' : 'logged-over';
+                }
+                if (d === userState.activeDay) {
+                    statusClass += ' active-day';
+                }
+
+                grid.innerHTML += `
+                    <button type="button" onclick="selectDay(${d})" class="day-btn ${statusClass}">
+                        <span class="day-num">يوم ${d}</span>
+                        <span class="day-cal">${dayCal > 0 ? dayCal + ' سعرة' : '—'}</span>
+                    </button>
+                `;
+            }
+        }
+
+        function syncInput(field, val) {
+            userState[field] = parseFloat(val) || 0;
+            document.getElementById(`${field}-num`).value = val;
+            document.getElementById(`${field}-range`).value = val;
+            calculateNeeds();
+        }
+
+        function setGender(g, recalc = true) {
+            userState.gender = g;
+            document.getElementById('btn-male').className = g === 'male' ? 'toggle-btn active' : 'toggle-btn';
+            document.getElementById('btn-female').className = g === 'female' ? 'toggle-btn active' : 'toggle-btn';
+            if (recalc) calculateNeeds();
+        }
+
+        function setGoal(g, recalc = true) {
+            userState.goal = g;
+            ['cut', 'maintain', 'bulk'].forEach(item => {
+                document.getElementById(`goal-${item}`).className = item === g ? 'toggle-btn active' : 'toggle-btn';
+            });
+            if (recalc) calculateNeeds();
+        }
+
+        function applyPreset(val) {
+            const parts = val.split(',').map(Number);
+            userState.carbPct = parts[0];
+            userState.protPct = parts[1];
+            userState.fatPct = parts[2];
+            calculateNeeds();
+        }
+
+        function calculateNeeds() {
+            userState.activity = parseFloat(document.getElementById('activity').value);
+            let bmr = (10 * userState.weight) + (6.25 * userState.height) - (5 * userState.age);
+            bmr += (userState.gender === 'male') ? 5 : -161;
+
+            let cal = bmr * userState.activity;
+            if (userState.goal === 'cut') cal -= 500;
+            if (userState.goal === 'bulk') cal += 300;
+            cal = Math.max(1200, Math.round(cal));
+
+            userState.targetCal = cal;
+            userState.targetCarb = Math.round((cal * (userState.carbPct / 100)) / 4);
+            userState.targetProt = Math.round((cal * (userState.protPct / 100)) / 4);
+            userState.targetFat = Math.round((cal * (userState.fatPct / 100)) / 9);
+
+            let hM = userState.height / 100;
+            let bmi = (userState.weight / (hM * hM)).toFixed(1);
+            let water = ((userState.weight * 35) / 1000).toFixed(1);
+
+            document.getElementById('target-cal').innerText = userState.targetCal;
+            document.getElementById('bar-cal-max').innerText = userState.targetCal;
+            document.getElementById('month-target-ref').innerText = userState.targetCal;
+            document.getElementById('target-carb').innerText = userState.targetCarb;
+            document.getElementById('target-prot').innerText = userState.targetProt;
+            document.getElementById('target-fat').innerText = userState.targetFat;
+            document.getElementById('target-water').innerText = `${water} لتر`;
+            document.getElementById('target-bmi').innerText = `BMI: ${bmi}`;
+
+            saveData();
+            updateMealTrackerUI();
+            renderCalendarGrid();
+            renderMonthlyHarvest();
+        }
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            const cats = ['all', 'bread', 'carbs', 'legumes', 'protein', 'dairy', 'fats', 'veggies', 'fruits'];
+            cats.forEach(c => {
+                document.getElementById(`cat-${c}`).className = c === cat ? 'cat-pill active' : 'cat-pill';
+            });
+            renderFoodList();
+        }
+
+        function renderFoodList() {
+            const search = document.getElementById('food-search').value.trim().toLowerCase();
+            const tbody = document.getElementById('food-db-tbody');
+            tbody.innerHTML = '';
+
+            const filtered = foodDatabase.filter(item => {
+                const matchCat = currentCategory === 'all' || item.cat === currentCategory;
+                const matchSearch = item.name.toLowerCase().includes(search) || item.unit.toLowerCase().includes(search);
+                return matchCat && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px; color:var(--slate-500); font-weight:700;">لا توجد نتائج مطابقة.. يمكنك إضافتها يدوياً بالأسفل</td></tr>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>
+                            <div style="font-weight:700;">${item.name}</div>
+                            <div style="font-size:0.75rem; color:var(--slate-500);">${item.unit}</div>
+                        </td>
+                        <td style="text-align:center;"><span class="cal-pill">${item.cal}</span></td>
+                        <td style="text-align:center; font-size:0.75rem; font-weight:700;">
+                            <span style="color:var(--amber-700);">${item.c}ك</span> •
+                            <span style="color:var(--rose-700);">${item.p}ب</span> •
+                            <span style="color:var(--blue-700);">${item.f}د</span>
+                        </td>
+                        <td style="text-align:center;">
+                            <input type="number" id="qty-${item.id}" value="1" min="0.25" max="20" step="0.5" style="width:60px; text-align:center; padding:4px;">
+                        </td>
+                        <td style="text-align:center;">
+                            <button onclick="addFoodToPlate(${item.id})" class="btn-add">+ أضف</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function addFoodToPlate(id) {
+            const food = foodDatabase.find(f => f.id === id);
+            if (!food) return;
+            const qtyInput = document.getElementById(`qty-${id}`);
+            const qty = parseFloat(qtyInput ? qtyInput.value : 1) || 1;
+            const mealType = document.getElementById('selected-meal-type').value;
+
+            const dayItems = getDayLog().items;
+            const existing = dayItems.find(item => item.foodId === id && item.mealType === mealType);
+            if (existing) {
+                existing.qty = +(existing.qty + qty).toFixed(2);
+            } else {
+                dayItems.push({
+                    uid: Date.now() + Math.random(),
+                    foodId: food.id, mealType: mealType,
+                    name: food.name, unit: food.unit, qty: qty,
+                    baseCal: food.cal, baseC: food.c, baseP: food.p, baseF: food.f
+                });
+            }
+            saveData();
+            updateMealTrackerUI();
+            renderCalendarGrid();
+            renderMonthlyHarvest();
+        }
+
+        function addCustomFood() {
+            const name = document.getElementById('custom-name').value.trim();
+            const cal = parseFloat(document.getElementById('custom-cal').value) || 0;
+            const carb = parseFloat(document.getElementById('custom-carb').value) || 0;
+            const mealType = document.getElementById('selected-meal-type').value;
+
+            if (!name || cal <= 0) {
+                alert('يرجى كتابة اسم الأكلة والسعرات الحرارية');
+                return;
+            }
+
+            getDayLog().items.push({
+                uid: Date.now() + Math.random(),
+                foodId: null, mealType: mealType,
+                name: name, unit: 'حصة مخصصة', qty: 1,
+                baseCal: cal, baseC: carb, baseP: 0, baseF: 0
+            });
+
+            document.getElementById('custom-name').value = '';
+            document.getElementById('custom-cal').value = '';
+            document.getElementById('custom-carb').value = '';
+            saveData();
+            updateMealTrackerUI();
+            renderCalendarGrid();
+            renderMonthlyHarvest();
+        }
+
+        function changeItemQty(uid, delta) {
+            const dayLog = getDayLog();
+            const item = dayLog.items.find(i => i.uid === uid);
+            if (!item) return;
+            item.qty = +(item.qty + delta).toFixed(2);
+            if (item.qty <= 0) {
+                dayLog.items = dayLog.items.filter(i => i.uid !== uid);
+            }
+            saveData();
+            updateMealTrackerUI();
+            renderCalendarGrid();
+            renderMonthlyHarvest();
+        }
+
+        function removeItem(uid) {
+            const dayLog = getDayLog();
+            dayLog.items = dayLog.items.filter(i => i.uid !== uid);
+            saveData();
+            updateMealTrackerUI();
+            renderCalendarGrid();
+            renderMonthlyHarvest();
+        }
+
+        function clearCurrentDayMeals() {
+            getDayLog().items = [];
+            saveData();
+            updateMealTrackerUI();
+            renderCalendarGrid();
+            renderMonthlyHarvest();
+        }
+
+        function copyPreviousDayMeals() {
+            if (userState.activeDay <= 1) {
+                alert('أنت في اليوم الأول من الشهر!');
+                return;
+            }
+            const prevItems = getDayLog(userState.activeDay - 1).items;
+            if (!prevItems || prevItems.length === 0) {
+                alert(`لا توجد وجبات مسجلة في اليوم ${userState.activeDay - 1} لنسخها`);
+                return;
+            }
+            const cloned = prevItems.map(i => ({ ...i, uid: Date.now() + Math.random() }));
+            getDayLog(userState.activeDay).items = cloned;
+            saveData();
+            updateMealTrackerUI();
+            renderCalendarGrid();
+            renderMonthlyHarvest();
+        }
+
+        function resetWholeMonth() {
+            if (confirm('هل أنت متأكد من مسح سجل هذا الشهر بالكامل؟')) {
+                monthlyLogs[userState.currentMonth] = {};
+                saveData();
+                selectDay(1);
+            }
+        }
+
+        function updateMealTrackerUI() {
+            const container = document.getElementById('selected-meals-container');
+            const selectedItems = getDayLog().items;
+            const mealTypes = [
+                { key: 'الإفطار', icon: '🌅', title: 'وجبة الإفطار' },
+                { key: 'الغداء', icon: '☀️', title: 'وجبة الغداء' },
+                { key: 'العشاء', icon: '🌙', title: 'وجبة العشاء' },
+                { key: 'سناك', icon: '🍎', title: 'سناك / بين الوجبات' }
+            ];
+
+            let totalCal = 0, totalC = 0, totalP = 0, totalF = 0;
+            container.innerHTML = '';
+
+            if (selectedItems.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding:36px 14px; background:var(--slate-50); border:1px dashed var(--slate-300); border-radius:14px;">
+                        <div style="font-size:2rem; margin-bottom:6px;">🍽️</div>
+                        <div style="font-weight:700; color:var(--slate-600); font-size:0.9rem;">لم تسجل أي أطعمة في (اليوم ${userState.activeDay}) بعد</div>
+                        <div style="font-size:0.78rem; color:var(--slate-500); margin-top:4px;">اضغط (+ أضف) أمام أي طعام من الجدول ليظهر حساب سعرات هذا اليوم</div>
+                    </div>
+                `;
+            } else {
+                mealTypes.forEach(m => {
+                    const groupItems = selectedItems.filter(i => i.mealType === m.key);
+                    if (groupItems.length === 0) return;
+
+                    let mealCal = 0;
+                    let rowsHTML = '';
+
+                    groupItems.forEach(item => {
+                        const iCal = Math.round(item.baseCal * item.qty);
+                        const iC = Math.round(item.baseC * item.qty);
+                        const iP = Math.round(item.baseP * item.qty);
+                        const iF = Math.round(item.baseF * item.qty);
+
+                        mealCal += iCal;
+                        totalCal += iCal;
+                        totalC += iC;
+                        totalP += iP;
+                        totalF += iF;
+
+                        rowsHTML += `
+                            <div class="meal-item-row">
+                                <div>
+                                    <div style="font-weight:700;">${item.name} <span style="color:var(--teal-700);">(×${item.qty})</span></div>
+                                    <div style="font-size:0.72rem; color:var(--slate-500);">${item.unit} | ${iC}ك • ${iP}ب • ${iF}د</div>
+                                </div>
+                                <div style="display:flex; align-items:center; gap:6px;">
+                                    <span style="font-weight:800; background:white; padding:3px 8px; border-radius:6px; border:1px solid var(--slate-200);">${iCal} سعرة</span>
+                                    <div class="no-print" style="display:flex; gap:3px;">
+                                        <button class="qty-btn" onclick="changeItemQty(${item.uid}, 0.5)">+</button>
+                                        <button class="qty-btn" onclick="changeItemQty(${item.uid}, -0.5)">-</button>
+                                        <button class="qty-btn" style="color:var(--rose-600);" onclick="removeItem(${item.uid})">×</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    container.innerHTML += `
+                        <div class="meal-group">
+                            <div class="meal-group-header">
+                                <span>${m.icon} ${m.title}</span>
+                                <span style="font-size:0.78rem; background:var(--teal-100); color:var(--teal-800); padding:2px 10px; border-radius:99px;">${mealCal} سعرة</span>
+                            </div>
+                            <div>${rowsHTML}</div>
+                        </div>
+                    `;
+                });
+            }
+
+            document.getElementById('consumed-cal').innerText = totalCal;
+            document.getElementById('total-plate-cal').innerText = totalCal;
+            document.getElementById('total-plate-carb').innerText = totalC;
+            document.getElementById('total-plate-prot').innerText = totalP;
+            document.getElementById('total-plate-fat').innerText = totalF;
+
+            document.getElementById('consumed-carb').innerText = totalC;
+            document.getElementById('consumed-prot').innerText = totalP;
+            document.getElementById('consumed-fat').innerText = totalF;
+
+            const remCal = userState.targetCal - totalCal;
+            const remEl = document.getElementById('remaining-cal');
+            const remLabel = document.getElementById('remaining-label');
+            const badge = document.getElementById('status-badge');
+
+            if (remCal >= 0) {
+                remEl.innerText = remCal;
+                remEl.style.color = 'var(--emerald-700)';
+                remLabel.innerText = 'سعرة متبقية لك';
+                badge.innerText = totalCal === 0 ? 'جاهز لاختيار الوجبات' : 'ملتزم بالهدف اليومي ✓';
+                badge.style.background = 'var(--emerald-100)';
+                badge.style.color = 'var(--emerald-800)';
+            } else {
+                remEl.innerText = Math.abs(remCal);
+                remEl.style.color = 'var(--rose-600)';
+                remLabel.innerText = 'سعرة زائدة عن هدفك!';
+                badge.innerText = `تجاوزت الاحتياج بـ ${Math.abs(remCal)} سعرة ⚠️`;
+                badge.style.background = 'var(--rose-100)';
+                badge.style.color = 'var(--rose-700)';
+            }
+
+            const calPct = Math.min(100, Math.round((totalCal / userState.targetCal) * 100));
+            document.getElementById('bar-cal-val').innerText = totalCal;
+            document.getElementById('bar-cal-pct').innerText = `${Math.round((totalCal / userState.targetCal) * 100)}%`;
+            const barCalEl = document.getElementById('bar-cal');
+            barCalEl.style.width = `${calPct}%`;
+            barCalEl.style.background = totalCal > userState.targetCal ? 'var(--rose-600)' : 'var(--teal-600)';
+
+            document.getElementById('bar-carb').style.width = `${Math.min(100, Math.round((totalC / userState.targetCarb) * 100))}%`;
+            document.getElementById('bar-prot').style.width = `${Math.min(100, Math.round((totalP / userState.targetProt) * 100))}%`;
+            document.getElementById('bar-fat').style.width = `${Math.min(100, Math.round((totalF / userState.targetFat) * 100))}%`;
+        }
+
+        function renderMonthlyHarvest() {
+            let daysLogged = 0;
+            let daysOnTrack = 0;
+            let sumCalories = 0;
+            let netCalorieDiff = 0; // (consumed - target) across logged days
+            let recordedWeights = [];
+
+            const tbody = document.getElementById('monthly-log-tbody');
+            tbody.innerHTML = '';
+
+            for (let d = 1; d <= 30; d++) {
+                const log = getDayLog(d);
+                const itemsCount = log.items.length;
+                const dCal = log.items.reduce((s, i) => s + Math.round(i.baseCal * i.qty), 0);
+                const dC = log.items.reduce((s, i) => s + Math.round(i.baseC * i.qty), 0);
+                const dP = log.items.reduce((s, i) => s + Math.round(i.baseP * i.qty), 0);
+                const dF = log.items.reduce((s, i) => s + Math.round(i.baseF * i.qty), 0);
+
+                if (log.weight) {
+                    recordedWeights.push({ day: d, w: parseFloat(log.weight) });
+                }
+
+                if (dCal > 0) {
+                    daysLogged++;
+                    sumCalories += dCal;
+                    const diff = dCal - userState.targetCal;
+                    netCalorieDiff += diff;
+
+                    const isGood = dCal <= userState.targetCal;
+                    if (isGood) daysOnTrack++;
+
+                    tbody.innerHTML += `
+                        <tr onclick="selectDay(${d})" style="cursor:pointer;">
+                            <td style="font-weight:800; color:var(--teal-800);">اليوم ${d}</td>
+                            <td style="text-align:center;">${itemsCount} أصناف</td>
+                            <td style="text-align:center;"><span class="cal-pill">${dCal} سعرة</span></td>
+                            <td style="text-align:center; font-weight:700; color:${diff <= 0 ? 'var(--emerald-700)' : 'var(--rose-600)'};">
+                                ${diff <= 0 ? `${Math.abs(diff)} سعرة توفير` : `+${diff} سعرة زيادة`}
+                            </td>
+                            <td style="text-align:center; font-size:0.78rem; font-weight:700;">
+                                ${dC}ك / ${dP}ب / ${dF}د
+                            </td>
+                            <td style="text-align:center; font-weight:700;">${log.weight ? log.weight + ' كجم' : '—'}</td>
+                            <td style="text-align:center;">
+                                <span style="font-size:0.75rem; font-weight:700; padding:3px 8px; border-radius:99px; background:${isGood ? 'var(--emerald-100)' : 'var(--rose-100)'}; color:${isGood ? 'var(--emerald-800)' : 'var(--rose-700)'};">
+                                    ${isGood ? '✓ ملتزم' : '⚠️ تجاوز'}
+                                </span>
+                            </td>
+                        </tr>
+                    `;
+                }
+            }
+
+            if (daysLogged === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:24px; color:var(--slate-500); font-weight:700;">لم يتم تسجيل أي يوم في هذا الشهر حتى الآن.. ابدأ بإضافة وجباتك ليظهر حصاد الشهر هنا تلقائياً</td></tr>`;
+            }
+
+            const avgCal = daysLogged > 0 ? Math.round(sumCalories / daysLogged) : 0;
+            const adherencePct = daysLogged > 0 ? Math.round((daysOnTrack / daysLogged) * 100) : 0;
+
+            document.getElementById('month-days-logged').innerText = `${daysLogged} / 30`;
+            document.getElementById('month-days-on-track').innerText = `${daysOnTrack} يوم`;
+            document.getElementById('month-adherence-pct').innerText = `نسبة الالتزام: ${adherencePct}%`;
+            document.getElementById('month-avg-cal').innerText = `${avgCal}`;
+
+            const netEl = document.getElementById('month-net-diff');
+            const netLabel = document.getElementById('month-net-label');
+            if (netCalorieDiff <= 0) {
+                netEl.innerText = Math.abs(netCalorieDiff);
+                netEl.style.color = 'var(--emerald-700)';
+                netLabel.innerText = 'سعرة تم توفيرها (عجز)';
+            } else {
+                netEl.innerText = `+${netCalorieDiff}`;
+                netEl.style.color = 'var(--rose-600)';
+                netLabel.innerText = 'سعرة فائضة عن الهدف';
+            }
+
+            // Expected Weight Change (7700 kcal ≈ 1 kg) OR Actual Logged Weight Diff
+            const weightResEl = document.getElementById('month-weight-result');
+            const weightSubEl = document.getElementById('month-weight-sub');
+
+            if (recordedWeights.length >= 2) {
+                const firstW = recordedWeights[0].w;
+                const lastW = recordedWeights[recordedWeights.length - 1].w;
+                const wDiff = +(lastW - firstW).toFixed(1);
+                weightResEl.innerText = wDiff === 0 ? 'ثابت (0 كجم)' : (wDiff > 0 ? `+${wDiff} كجم` : `${wDiff} كجم`);
+                weightSubEl.innerText = `فعلياً من ${firstW} إلى ${lastW} كجم`;
+            } else {
+                const estKg = +(netCalorieDiff / 7700).toFixed(2);
+                if (estKg === 0) {
+                    weightResEl.innerText = '0 كجم';
+                    weightSubEl.innerText = 'ثبات بالوزن';
+                } else if (estKg < 0) {
+                    weightResEl.innerText = `${estKg} كجم`;
+                    weightSubEl.innerText = 'نزول متوقع من السعرات';
+                } else {
+                    weightResEl.innerText = `+${estKg} كجم`;
+                    weightSubEl.innerText = 'زيادة متوقعة من السعرات';
+                }
+            }
+        }
+
+        function copyMonthlyReport() {
+            const daysLogged = document.getElementById('month-days-logged').innerText;
+            const daysOnTrack = document.getElementById('month-days-on-track').innerText;
+            const avgCal = document.getElementById('month-avg-cal').innerText;
+            const weightRes = document.getElementById('month-weight-result').innerText;
+
+            let text = `🗓️ *تقرير حصاد الشهر الغذائي*\n`;
+            text += `• الاحتياج اليومي المستهدف: ${userState.targetCal} سعرة\n`;
+            text += `• الأيام المسجلة بالشهر: ${daysLogged}\n`;
+            text += `• أيام الالتزام بالهدف: ${daysOnTrack}\n`;
+            text += `• متوسط السعرات اليومي: ${avgCal} سعرة\n`;
+            text += `• محصلة الوزن بنهاية الشهر: ${weightRes}\n`;
+
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copyBtnText');
+                btn.innerText = 'تم نسخ التقرير ✓';
+                setTimeout(() => btn.innerText = 'نسخ تقرير الشهر', 2000);
+            });
+        }
+
+        // Initialize App
+        loadSavedData();
+        calculateNeeds();
+        renderFoodList();
+        selectDay(userState.activeDay || 1);
+    </script>
+</body>
+</html>
